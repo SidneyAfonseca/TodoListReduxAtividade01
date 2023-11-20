@@ -4,7 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask, toggleTaskCompletion, deleteTask, selectTodoList } from "../reducers/todoReducer";
-import CustomButton from "../components/CustomButtom";
+import { CustomButton, CustomButtonRemove } from "../components/CustomButtom"
+import { addHistory } from '../reducers/historySlice';
 
 const TodoApp: React.FC = () => {
   const [taskInput, setTaskInput] = useState<string>("");
@@ -21,6 +22,7 @@ const TodoApp: React.FC = () => {
 
   const toggleTaskCompletionHandler = (index: number) => {
     dispatch(toggleTaskCompletion(index));
+    dispatch(addHistory({ name: todoList[index].name }));
   };
 
   const deleteTaskHandler = (index: number) => {
@@ -46,7 +48,7 @@ const TodoApp: React.FC = () => {
         </div>
       </div>
       <ul className="list-group">
-        {todoList.map((task, index) => (
+        {todoList.map((task: { name: string; completed: boolean }, index: number) => (
           <li key={index} className="list-group-item">
             <Row>
               <Col className="d-flex align-items-center">
@@ -54,6 +56,7 @@ const TodoApp: React.FC = () => {
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => toggleTaskCompletionHandler(index)}
+
                 />
                 <span
                   className={`ml-2 ${task.completed ? "text-decoration-line-through" : ""}`}
@@ -62,12 +65,12 @@ const TodoApp: React.FC = () => {
                 </span>
               </Col>
               <Col>
-                <CustomButton
+                <CustomButtonRemove
                   backgroundColor="#FE0000"
                   onClick={() => deleteTaskHandler(index)}
                 >
                   Remover
-                </CustomButton>
+                </CustomButtonRemove>
               </Col>
             </Row>
           </li>

@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface CustomButtonProps {
   children: ReactNode;
@@ -7,7 +9,7 @@ interface CustomButtonProps {
   onClick: () => void;
 }
 
-const CustomButton = (props: CustomButtonProps) => {
+export const CustomButton = (props: CustomButtonProps) => {
   return (
     <Button
       style={{
@@ -23,4 +25,23 @@ const CustomButton = (props: CustomButtonProps) => {
   );
 };
 
-export default CustomButton;
+
+export const CustomButtonRemove: React.FC<CustomButtonProps> = (props) => {
+  return (
+    <button
+      style={{
+        backgroundColor: props.backgroundColor,
+        border: "none",
+        outline: "none",
+        marginLeft: 8,
+      }}
+      onClick={props.onClick}
+    >
+      {/* Use o ícone de remoção como conteúdo do botão */}
+      <FontAwesomeIcon icon={faTrash} />
+    </button>
+  );
+};
+
+export default { CustomButton, CustomButtonRemove };
+
